@@ -18,7 +18,7 @@ const Home = () => {
           startups, and causes.
         </p>
         <div className="hero-buttons">
-          {/* ✅ Add onClick to navigate to /start-campaign */}
+          {/*  Add onClick to navigate to /start-campaign */}
           <button className="primary-btn" onClick={() => navigate('/start-campaign')}>
             Start a Campaign
           </button>
