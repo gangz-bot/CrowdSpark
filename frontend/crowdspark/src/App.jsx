@@ -6,7 +6,7 @@ import Features from './pages/Features';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
-import StartCampaign from './pages/StartCampaign'; //  importing it  here
+import StartCampaign from './pages/StartCampaign'; 
 
 const App = () => {
   const location = useLocation();
@@ -23,7 +23,7 @@ const App = () => {
         <Route path='/How-it-works' element={<HowItWorks />} />
         <Route path='/login' element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/start-campaign" element={<StartCampaign />} /> {/*added the  route */}
+        <Route path="/start-campaign" element={<StartCampaign />} /> 
       </Routes>
     </div>
   );
