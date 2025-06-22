@@ -1,10 +1,10 @@
-/* Hero Section */
+
 .hero {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    background-color: #014f56; /* deep teal */
+    background-color: #014f56; 
     color: white;
     padding: 4rem 6rem;
     margin-top: 4rem;  

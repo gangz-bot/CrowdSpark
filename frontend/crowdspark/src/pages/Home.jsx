@@ -1,12 +1,10 @@
 import React from 'react';
 import './Home.css';
 import heroImage from '../assets/hero.png';
-
-// Import the navigation hook from react-router-dom
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  // Initialize the navigation hook
+  
   const navigate = useNavigate();
 
   return (
@@ -18,8 +16,7 @@ const Home = () => {
           startups, and causes.
         </p>
         <div className="hero-buttons">
-          {/*  Add onClick to navigate to /start-campaign */}
-          <button className="primary-btn" onClick={() => navigate('/start-campaign')}>
+          <button className="primary-btn hover:bg-teal-800 hover:text-white hover:scale-105 transition duration-200 ease-in-out" onClick={() => navigate('/start-campaign')}>
             Start a Campaign
           </button>
 
