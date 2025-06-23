@@ -34,5 +34,6 @@ const App = () => {
     </div>
   );
 };
+//different routes 
 
 export default App;

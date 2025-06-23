@@ -12,3 +12,4 @@ const SecurePayments = () => {
 };
 
 export default SecurePayments;
+//this is the ui of payments 

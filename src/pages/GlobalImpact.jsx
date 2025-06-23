@@ -12,3 +12,4 @@ const GlobalImpact = () => {
 };
 
 export default GlobalImpact;
+//reach a worldwide community
