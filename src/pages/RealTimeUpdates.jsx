@@ -12,3 +12,4 @@ const RealTimeUpdates = () => {
 };
 
 export default RealTimeUpdates;
+//see real time updates without delay 
