@@ -5,7 +5,7 @@
   justify-content: space-between;
   background-color: #014f56;
   color: white;
-  padding: 4rem 6rem;
+  padding: 3rem 6rem;
   margin-top: 4rem;
 }
 
@@ -59,10 +59,10 @@
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  padding: 4rem 2rem;
+  padding: 2.83rem 1rem;
   background-color: #f0f8f9;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .feature-card {
