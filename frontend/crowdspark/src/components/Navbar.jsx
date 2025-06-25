@@ -8,7 +8,7 @@ const Navbar = () => {
         <div className="text-2xl font-bold">CrowdSpark</div>
         <ul className='hidden md:flex gap-20 items-center'>
             <Link to="/" className='cursor-pointer hover:text-gray-400'>Home</Link>
-            <Link to="/How-it-works" className='cursor-pointer hover:text-gray-400'>How It Works</Link>
+            <Link to="/campaigns" className='cursor-pointer hover:text-gray-400'>Campaigns</Link>
             <Link to="/features" className='cursor-pointer hover:text-gray-400'>Features</Link>
             <Link to="/login" className='cursor-pointer hover:text-gray-400'>Login</Link>
         </ul>

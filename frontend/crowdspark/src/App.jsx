@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HowItWorks from './pages/HowItWorks';
+import Campaign from './pages/Campaign';
 import Features from './pages/Features';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -14,7 +14,7 @@ import GlobalImpact from './pages/GlobalImpact';
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarRoutes = ['/login', '/signup', '/features', '/How-it-works','/start-campaign', '/secure-payments', '/real-time-updates', '/global-impact'];
+  const hideNavbarRoutes = ['/login', '/signup', '/features', '/campaigns','/start-campaign', '/secure-payments', '/real-time-updates', '/global-impact'];
   const shouldhideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -23,7 +23,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/features' element={<Features />} />
-        <Route path='/How-it-works' element={<HowItWorks />} />
+        <Route path='/campaigns' element={<Campaign />} />
         <Route path='/login' element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/start-campaign" element={<StartCampaign />} /> 
