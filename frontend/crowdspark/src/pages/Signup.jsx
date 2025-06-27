@@ -1,7 +1,10 @@
 import React from 'react'
 import './loginSignup.css'
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+
+
 
 import user_icon from '../assets/person.png'
 import email_icon from '../assets/email.png'
@@ -9,6 +12,7 @@ import password_icon from '../assets/password.png'
 
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name:'',
     email:'',
@@ -73,11 +77,16 @@ const Signup = () => {
     return isValid;
   };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit= async (e)=>{
     e.preventDefault();
     if(validateAll()){
-      //YAHA PR FORM DATA KO BACKEND MAI BHEJNE KA CODE
-      alert('Form Submited Successfully');
+      try{
+        const response= await axios.post('http://localhost:5000/api/auth/signup', formData);
+        alert('Signup Successfull!' + response.data.user.name);
+        navigate('/login');
+      } catch(error){
+        alert(error.response?.data?.msg || 'Signup failed!');
+      }
     }
   };
 

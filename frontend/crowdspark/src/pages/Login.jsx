@@ -1,13 +1,15 @@
 import React from 'react'
 import './loginSignup.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 
 import user_icon from '../assets/person.png'
 import email_icon from '../assets/email.png'
 import password_icon from '../assets/password.png'
 
-const Login = () => {
+const Login = ({setUser}) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email:'',
     password:''
@@ -51,11 +53,23 @@ const Login = () => {
     return isValid;
   };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit= async (e)=>{
     e.preventDefault();
     if(validateAll()){
-      //YAHA PR FORM DATA KO BACKEND MAI BHEJNE KA CODE
-      alert('Form Submited Successfully');
+      try{
+        const result= await axios.post('http://localhost:5000/api/auth/login', formData);
+        alert('Login Successful');
+
+        localStorage.setItem('token', result.data.token);
+        localStorage.setItem('user', JSON.stringify(result.data.user));
+
+        if(setUser) setUser(result.data.user);
+
+        navigate('/');
+
+      } catch(error){
+        alert(error.response?.data?.msg || 'Login Failed!');
+      }
     }
   };
 
