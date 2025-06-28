@@ -25,7 +25,7 @@ const Home = () => {
             >
               Start a Campaign
             </button>
-            <button className="secondary-btn">Learn More</button>
+            <button className="primary-btn hover:bg-teal-800 hover:text-white hover:scale-105 transition duration-200 ease-in-out">View Dashboard</button>
           </div>
         </div>
 
