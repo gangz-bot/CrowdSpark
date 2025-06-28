@@ -1,46 +1,74 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const BankDetails = () => {
-  const [bank, setBank] = useState({
-    accountName: '',
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    beneficiaryName: '',
     accountNumber: '',
-    ifsc: '',
+    confirmAccountNumber: '',
     bankName: '',
-    branch: '',
-    upi: '',
+    branchName: '',
+    ifscCode: '',
+    upiId: '',
   });
 
+  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBank({ ...bank, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { accountName, accountNumber, ifsc, bankName, branch, upi } = bank;
-
-    if (!accountName || !accountNumber || !ifsc || !bankName || !branch || !upi) {
-      alert('Please complete all fields');
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('You must be logged in');
       return;
     }
 
-    setSubmitted(true);
+    if (formData.accountNumber !== formData.confirmAccountNumber) {
+      setError('Account numbers do not match');
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/api/bank/add',
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setError('');
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Something went wrong');
+    }
+  };
+
+  const handleFinalLaunch = () => {
+    navigate('/campaigns'); 
   };
 
   return (
-    <div className="p-12 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">Enter Bank Details</h1>
+    <div className="p-8 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">Bank Details</h1>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && <p className="text-red-500">{error}</p>}
+
           <div>
-            <label className="block font-medium mb-1">Account Holder Name *</label>
+            <label className="block font-medium">Beneficiary Name *</label>
             <input
               type="text"
-              name="accountName"
-              value={bank.accountName}
+              name="beneficiaryName"
+              value={formData.beneficiaryName}
               onChange={handleChange}
               required
               className="w-full border rounded px-3 py-2"
@@ -48,11 +76,11 @@ const BankDetails = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Account Number *</label>
+            <label className="block font-medium">Account Number *</label>
             <input
               type="text"
               name="accountNumber"
-              value={bank.accountNumber}
+              value={formData.accountNumber}
               onChange={handleChange}
               required
               className="w-full border rounded px-3 py-2"
@@ -60,11 +88,11 @@ const BankDetails = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">IFSC Code *</label>
+            <label className="block font-medium">Confirm Account Number *</label>
             <input
               type="text"
-              name="ifsc"
-              value={bank.ifsc}
+              name="confirmAccountNumber"
+              value={formData.confirmAccountNumber}
               onChange={handleChange}
               required
               className="w-full border rounded px-3 py-2"
@@ -72,11 +100,11 @@ const BankDetails = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Bank Name *</label>
+            <label className="block font-medium">Bank Name *</label>
             <input
               type="text"
               name="bankName"
-              value={bank.bankName}
+              value={formData.bankName}
               onChange={handleChange}
               required
               className="w-full border rounded px-3 py-2"
@@ -84,11 +112,11 @@ const BankDetails = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Bank Branch *</label>
+            <label className="block font-medium">Branch Name *</label>
             <input
               type="text"
-              name="branch"
-              value={bank.branch}
+              name="branchName"
+              value={formData.branchName}
               onChange={handleChange}
               required
               className="w-full border rounded px-3 py-2"
@@ -96,13 +124,24 @@ const BankDetails = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">UPI ID *</label>
+            <label className="block font-medium">IFSC Code *</label>
             <input
               type="text"
-              name="upi"
-              value={bank.upi}
+              name="ifscCode"
+              value={formData.ifscCode}
               onChange={handleChange}
               required
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium">UPI ID</label>
+            <input
+              type="text"
+              name="upiId"
+              value={formData.upiId}
+              onChange={handleChange}
               className="w-full border rounded px-3 py-2"
             />
           </div>
@@ -111,13 +150,20 @@ const BankDetails = () => {
             type="submit"
             className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
           >
-            Launch My Campaign
+            Submit Bank Details
           </button>
         </form>
       ) : (
-        <div className="text-center bg-green-100 p-6 rounded">
-          <h2 className="text-2xl font-bold text-teal-700 mb-2">Campaign Launched!</h2>
-          <p>Your campaign and bank details have been submitted successfully.</p>
+        <div className="text-center">
+          <p className="text-green-600 font-semibold mb-6">
+            Bank details submitted successfully!
+          </p>
+          <button
+            onClick={handleFinalLaunch}
+            className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
+          >
+            Launch My Campaign
+          </button>
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const StartCampaign = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const StartCampaign = () => {
     category: '',
     image: null,
     story: '',
+    fundingGoal: '',
+    duration: '',
   });
 
   const [storyError, setStoryError] = useState('');
@@ -31,24 +34,43 @@ const StartCampaign = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, description, category, image, story } = formData;
 
-    if (!title || !description || !category || !image || !story) {
-      alert('Please fill out all required fields');
-      return;
+    const token = localStorage.getItem('token');
+    if (!token) return alert('Please log in first');
+
+    const data = new FormData();
+    for (let key in formData) {
+      if (key !== 'image') {
+        data.append(key, formData[key]);
+      }
     }
+    data.append('media', formData.image);
 
-    navigate('/bank-details');
+    try {
+      await axios.post('http://localhost:5000/api/campaigns/create', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert('Campaign submitted! Please provide your bank details.');
+      navigate('/bank-details');
+    } catch (err) {
+      console.error(err);
+      alert('Error submitting campaign. Please check all fields and try again.');
+    }
   };
 
   return (
     <div className="p-12 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">Start a Campaign</h1>
+      <h1 className="text-3xl font-bold mb-6">Start a Campaign</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
+
         <div>
-          <label className="block font-medium mb-1">Campaign Title *</label>
+          <label className="block font-medium">Campaign Title *</label>
           <input
             type="text"
             name="title"
@@ -60,7 +82,7 @@ const StartCampaign = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Short Description *</label>
+          <label className="block font-medium">Short Description *</label>
           <input
             type="text"
             name="description"
@@ -72,7 +94,7 @@ const StartCampaign = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Category *</label>
+          <label className="block font-medium">Category *</label>
           <select
             name="category"
             value={formData.category}
@@ -89,7 +111,7 @@ const StartCampaign = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Upload Campaign Image *</label>
+          <label className="block font-medium">Upload Campaign Image *</label>
           <input
             type="file"
             name="image"
@@ -101,23 +123,47 @@ const StartCampaign = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Tell your story (max 250 words) *</label>
+          <label className="block font-medium">Tell your story (max 250 words)</label>
           <textarea
             name="story"
             value={formData.story}
             onChange={handleChange}
-            rows="6"
             required
+            rows="6"
             className="w-full border rounded px-3 py-2"
           />
           {storyError && <p className="text-red-500 text-sm">{storyError}</p>}
+        </div>
+
+        <div>
+          <label className="block font-medium">Funding Goal (in ₹)*</label>
+          <input
+            type="number"
+            name="fundingGoal"
+            value={formData.fundingGoal}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Duration (in days)*</label>
+          <input
+            type="number"
+            name="duration"
+            value={formData.duration}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
         </div>
 
         <button
           type="submit"
           className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
         >
-          Submit Bank Details
+          Submit & Continue
         </button>
       </form>
     </div>
