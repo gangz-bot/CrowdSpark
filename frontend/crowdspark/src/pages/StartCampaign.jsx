@@ -68,7 +68,6 @@ const StartCampaign = () => {
     <div className="p-12 max-w-xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Start a Campaign</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-
         <div>
           <label className="block font-medium">Campaign Title *</label>
           <input
@@ -143,6 +142,7 @@ const StartCampaign = () => {
             value={formData.fundingGoal}
             onChange={handleChange}
             required
+            min="1"
             className="w-full border rounded px-3 py-2"
           />
         </div>
@@ -155,6 +155,7 @@ const StartCampaign = () => {
             value={formData.duration}
             onChange={handleChange}
             required
+            min="1"
             className="w-full border rounded px-3 py-2"
           />
         </div>
