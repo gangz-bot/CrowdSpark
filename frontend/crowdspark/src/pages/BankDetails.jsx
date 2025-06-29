@@ -162,7 +162,7 @@ const BankDetails = () => {
             onClick={handleFinalLaunch}
             className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
           >
-            Launch My Campaign
+            view My Campaign
           </button>
         </div>
       )}
