@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,29 @@ const BankDetails = () => {
 
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  // Check if bank details already exist
+  useEffect(() => {
+    const checkBankDetails = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const res = await axios.get('http://localhost:5000/api/bank/check', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.data.exists) {
+          // Already exists, redirect
+          navigate('/campaigns');
+        }
+      } catch (err) {
+        console.error('Error checking bank details:', err);
+      }
+    };
+
+    checkBankDetails();
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,13 +59,9 @@ const BankDetails = () => {
     }
 
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/bank/add',
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.post('http://localhost:5000/api/bank/add', formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setError('');
       setSubmitted(true);
     } catch (err) {
@@ -52,7 +71,7 @@ const BankDetails = () => {
   };
 
   const handleFinalLaunch = () => {
-    navigate('/campaigns'); 
+    navigate('/campaigns');
   };
 
   return (
@@ -162,7 +181,7 @@ const BankDetails = () => {
             onClick={handleFinalLaunch}
             className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
           >
-            view My Campaign
+            View My Campaign
           </button>
         </div>
       )}
