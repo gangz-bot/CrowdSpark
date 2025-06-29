@@ -5,20 +5,50 @@ import axios from "axios";
 const Campaign = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('newest');
 
+
+  //old code below is the new one
+
+
+  // useEffect(() => {
+  //   const fetchCampaigns = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:5000/api/campaigns");
+  //       setCampaigns(res.data.campaigns);
+  //     } catch (err) {
+  //       console.error("Error fetching campaigns: ", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchCampaigns();
+  // }, []);
   useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/campaigns");
-        setCampaigns(res.data.campaigns);
-      } catch (err) {
-        console.error("Error fetching campaigns: ", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCampaigns = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/campaigns", {
+        params: {
+          search: search, // pass search to backend
+            sort: sort, 
+        },
+      });
+      setCampaigns(res.data.campaigns);
+    } catch (err) {
+      console.error("Error fetching campaigns: ", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debounce = setTimeout(() => {
     fetchCampaigns();
-  }, []);
+  }, 500); // delay to avoid API spam while typing
+
+  return () => clearTimeout(debounce);
+}, [search, sort])
+
 
   return (
     <>
@@ -36,12 +66,15 @@ const Campaign = () => {
           <input
             type="text"
             placeholder="Search Campaigns..."
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
         </div>
         <select
           className="w-full md:w-auto border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-teal-500"
-          defaultValue="newest"
+          // defaultValue="newest"
+          value={sort}
+  onChange={(e) => setSort(e.target.value)}
         >
           <option value="newest">Sort by: Newest</option>
           <option value="ending-soon">Ending Soon</option>

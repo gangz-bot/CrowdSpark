@@ -23,13 +23,40 @@ const upload = multer({ storage, fileFilter });
 // Route to create campaign with media
 router.post('/create', auth, upload.single('media'), createCampaign);
 router.get('/', async (req, res) => {
+
+    // const sort = req.query.sort;
+    const { sort, search } = req.query;
+  let sortQuery = {};
+
+  if (sort === 'newest') {
+    sortQuery = { createdAt: -1 };
+  } else if (sort === 'ending-soon') {
+    sortQuery = { duration: 1 }; // ✅ use duration for now
+  } else if (sort === 'most-funded') {
+    sortQuery = { fundingGoal: -1 };
+  } else {
+    sortQuery = { createdAt: -1 }; // default
+  }
+
+  let searchFilter = {};
+if (search) {
+  searchFilter.title = { $regex: search, $options: 'i' };
+}
+
   try {
-    const campaigns = await Campaign.find().sort({ createdAt: -1 });
+    // const campaigns = await Campaign.find().sort({ createdAt: -1 });
+    const campaigns = await Campaign.find(searchFilter).sort(sortQuery);
+
+
     res.status(200).json({ campaigns });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
+
+    
   }
 });
+
+
 
 module.exports = router;
