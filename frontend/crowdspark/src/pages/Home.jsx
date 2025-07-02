@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import './home.css';
 import heroImage from '../assets/hero.png';
 import lockIcon from '../assets/lock.png';
 import clockIcon from '../assets/clock.png';
