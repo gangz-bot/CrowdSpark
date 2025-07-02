@@ -129,9 +129,13 @@ const Campaign = () => {
                   >
                     Donate Now
                   </Link>
-                  <button className="flex-1 border border-teal-700 text-teal-700 py-2 rounded hover:bg-teal-50">
+                  <Link
+                    to = {`/Contact/${campaign._id}`}
+                    className="flex-1 border border-teal-700 text-teal-700 py-2 rounded text-center hover:bg-teal-50"
+                  >
                     Contact Organizer
-                  </button>
+                  </Link>
+                  
                 </div>
               </div>
             </div>

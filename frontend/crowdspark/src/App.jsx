@@ -14,6 +14,7 @@ import RealTimeUpdates from './pages/RealTimeUpdates';
 import GlobalImpact from './pages/GlobalImpact';
 import Donation from './pages/Donation';
 import Payment from './pages/Payment';
+import Contact from './pages/Contact';
 
 const App = () => {
   const location = useLocation();
@@ -28,7 +29,7 @@ const App = () => {
     }
   }, []);
 
-  const hideNavbarRoutes = [
+  const hideNavbarPrefixes = [
     '/login',
     '/signup',
     '/features',
@@ -39,10 +40,13 @@ const App = () => {
     '/real-time-updates',
     '/global-impact',
     '/Donation',
-    '/Payment'
+    '/Payment',
+    '/Contact',
   ];
 
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const shouldHideNavbar = hideNavbarPrefixes.some((prefix) =>
+    location.pathname.startsWith(prefix)
+  );
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -76,6 +80,7 @@ const App = () => {
         <Route path="/global-impact" element={<GlobalImpact />} />
         <Route path="/Donation" element={<Donation />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="/Contact/:campaignId" element={<Contact />} />
       </Routes>
     </div>
   );
