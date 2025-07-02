@@ -12,6 +12,8 @@ import BankDetails from './pages/BankDetails';
 import SecurePayments from './pages/SecurePayments';
 import RealTimeUpdates from './pages/RealTimeUpdates';
 import GlobalImpact from './pages/GlobalImpact';
+import Donation from './pages/Donation';
+import Payment from './pages/Payment';
 
 const App = () => {
   const location = useLocation();
@@ -36,6 +38,8 @@ const App = () => {
     '/secure-payments',
     '/real-time-updates',
     '/global-impact',
+    '/Donation',
+    '/Payment'
   ];
 
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
@@ -70,6 +74,8 @@ const App = () => {
         <Route path="/secure-payments" element={<SecurePayments />} />
         <Route path="/real-time-updates" element={<RealTimeUpdates />} />
         <Route path="/global-impact" element={<GlobalImpact />} />
+        <Route path="/Donation" element={<Donation />} />
+        <Route path="/Payment" element={<Payment />} />
       </Routes>
     </div>
   );

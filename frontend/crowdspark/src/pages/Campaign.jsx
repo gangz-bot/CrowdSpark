@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Campaign = () => {
@@ -54,7 +55,9 @@ const Campaign = () => {
     <>
       <section className="campaigns-part bg-teal-800 text-white py-16 text-center">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          Discover Campaigns<br />that Need Your Support
+          Discover Campaigns
+          <br />
+          that Need Your Support
         </h1>
         <p className="text-lg text-teal-100">
           Browse active projects and help make them a reality.
@@ -74,7 +77,7 @@ const Campaign = () => {
           className="w-full md:w-auto border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-teal-500"
           // defaultValue="newest"
           value={sort}
-  onChange={(e) => setSort(e.target.value)}
+          onChange={(e) => setSort(e.target.value)}
         >
           <option value="newest">Sort by: Newest</option>
           <option value="ending-soon">Ending Soon</option>
@@ -120,9 +123,12 @@ const Campaign = () => {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <button className="flex-1 bg-teal-700 text-white py-2 rounded hover:bg-teal-800">
+                  <Link
+                    to="/Donation"
+                    className="flex-1 bg-teal-700 text-white py-2 rounded text-center hover:bg-teal-800"
+                  >
                     Donate Now
-                  </button>
+                  </Link>
                   <button className="flex-1 border border-teal-700 text-teal-700 py-2 rounded hover:bg-teal-50">
                     Contact Organizer
                   </button>
