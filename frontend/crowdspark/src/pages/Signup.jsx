@@ -81,7 +81,7 @@ const Signup = () => {
     e.preventDefault();
     if(validateAll()){
       try{
-        const response= await axios.post('http://localhost:5000/api/auth/signup', formData);
+        const response= await axios.post('https://crowdspark-backend.onrender.com/api/auth/signup', formData);
         alert('Signup Successfull!' + response.data.user.name);
         navigate('/login');
       } catch(error){
