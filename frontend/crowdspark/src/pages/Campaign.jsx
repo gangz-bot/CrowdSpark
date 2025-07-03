@@ -29,7 +29,7 @@ const Campaign = () => {
   useEffect(() => {
   const fetchCampaigns = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/campaigns", {
+      const res = await axios.get("https://crowdspark-backend.onrender.com/api/campaigns", {
         params: {
           search: search, // pass search to backend
             sort: sort, 
