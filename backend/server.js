@@ -21,6 +21,10 @@ app.use('/api/campaigns', require('./campaign/campaign.routes'));
 // to save bank details per user 
 app.use('/api/bank', require('./bank/bank.routes'));
 
+//for payment
+app.use('/api/payment', require('./payment/payment.routes'));
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
