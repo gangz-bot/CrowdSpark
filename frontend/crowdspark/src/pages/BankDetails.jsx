@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './loginSignup.css';
 
 const BankDetails = () => {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ const BankDetails = () => {
         });
 
         if (res.data.exists) {
-          // Already exists, redirect
           navigate('/campaigns');
         }
       } catch (err) {
@@ -75,116 +75,117 @@ const BankDetails = () => {
   };
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">Bank Details</h1>
-
-      {!submitted ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && <p className="text-red-500">{error}</p>}
-
-          <div>
-            <label className="block font-medium">Beneficiary Name *</label>
-            <input
-              type="text"
-              name="beneficiaryName"
-              value={formData.beneficiaryName}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">Account Number *</label>
-            <input
-              type="text"
-              name="accountNumber"
-              value={formData.accountNumber}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">Confirm Account Number *</label>
-            <input
-              type="text"
-              name="confirmAccountNumber"
-              value={formData.confirmAccountNumber}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">Bank Name *</label>
-            <input
-              type="text"
-              name="bankName"
-              value={formData.bankName}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">Branch Name *</label>
-            <input
-              type="text"
-              name="branchName"
-              value={formData.branchName}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">IFSC Code *</label>
-            <input
-              type="text"
-              name="ifscCode"
-              value={formData.ifscCode}
-              onChange={handleChange}
-              required
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium">UPI ID</label>
-            <input
-              type="text"
-              name="upiId"
-              value={formData.upiId}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
-          >
-            Submit Bank Details
-          </button>
-        </form>
-      ) : (
-        <div className="text-center">
-          <p className="text-green-600 font-semibold mb-6">
-            Bank details submitted successfully!
-          </p>
-          <button
-            onClick={handleFinalLaunch}
-            className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
-          >
-            View My Campaign
-          </button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#004e64] to-[#00a6a6] py-10 px-4">
+      <div className="container bg-white rounded-[50px] px-8 py-10 w-full max-w-2xl">
+        <div className="header">
+          <div className="text">Bank Details</div>
+          <div className="underline"></div>
         </div>
-      )}
+
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="space-y-6 mt-10">
+            {error && <p className="text-red-500 text-center">{error}</p>}
+
+            <div>
+              <label className="block text-center font-medium mb-2">Beneficiary Name *</label>
+              <input
+                type="text"
+                name="beneficiaryName"
+                value={formData.beneficiaryName}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">Account Number *</label>
+              <input
+                type="text"
+                name="accountNumber"
+                value={formData.accountNumber}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">Confirm Account Number *</label>
+              <input
+                type="text"
+                name="confirmAccountNumber"
+                value={formData.confirmAccountNumber}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">Bank Name *</label>
+              <input
+                type="text"
+                name="bankName"
+                value={formData.bankName}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">Branch Name *</label>
+              <input
+                type="text"
+                name="branchName"
+                value={formData.branchName}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">IFSC Code *</label>
+              <input
+                type="text"
+                name="ifscCode"
+                value={formData.ifscCode}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-center font-medium mb-2">UPI ID</label>
+              <input
+                type="text"
+                name="upiId"
+                value={formData.upiId}
+                onChange={handleChange}
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+
+            <div className="submit-container">
+              <button type="submit" className="submit">
+                Submit Bank Details
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="text-center mt-10">
+            <p className="text-green-600 font-semibold mb-6">
+              Bank details submitted successfully!
+            </p>
+            <button onClick={handleFinalLaunch} className="submit">
+              View My Campaign
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

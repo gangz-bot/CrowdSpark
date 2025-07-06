@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './loginSignup.css';
 
 const StartCampaign = () => {
   const [formData, setFormData] = useState({
@@ -65,108 +66,123 @@ const StartCampaign = () => {
   };
 
   return (
-    <div className="p-12 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Start a Campaign</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-medium">Campaign Title *</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full border rounded px-3 py-2"
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#004e64] to-[#00a6a6] py-10 px-4">
+      <div className="container bg-white rounded-[50px] px-8 py-10 w-full max-w-2xl">
+        <div className="header">
+          <div className="text">Start a Campaign</div>
+          <div className="underline"></div>
         </div>
 
-        <div>
-          <label className="block font-medium">Short Description *</label>
-          <input
-            type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-6 mt-10">
 
-        <div>
-          <label className="block font-medium">Category *</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Select Category</option>
-            <option value="Education">Education</option>
-            <option value="Health">Health</option>
-            <option value="Environment">Environment</option>
-            <option value="Innovation">Innovation</option>
-          </select>
-        </div>
+          {/* Title */}
+          <div>
+            <label className="block text-center font-medium mb-2">Campaign Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Upload Campaign Image *</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleChange}
-            required
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
+          {/* Description */}
+          <div>
+            <label className="block text-center font-medium mb-2">Short Description *</label>
+            <input
+              type="text"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Tell your story (max 250 words)</label>
-          <textarea
-            name="story"
-            value={formData.story}
-            onChange={handleChange}
-            required
-            rows="6"
-            className="w-full border rounded px-3 py-2"
-          />
-          {storyError && <p className="text-red-500 text-sm">{storyError}</p>}
-        </div>
+          {/* Category */}
+          <div>
+            <label className="block text-center font-medium mb-2">Category *</label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Category</option>
+              <option value="Education">Education</option>
+              <option value="Health">Health</option>
+              <option value="Environment">Environment</option>
+              <option value="Innovation">Innovation</option>
+            </select>
+          </div>
 
-        <div>
-          <label className="block font-medium">Funding Goal (in ₹)*</label>
-          <input
-            type="number"
-            name="fundingGoal"
-            value={formData.fundingGoal}
-            onChange={handleChange}
-            required
-            min="1"
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
+          {/* Image Upload */}
+          <div>
+            <label className="block text-center font-medium mb-2">Upload Campaign Image *</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
+              required
+              className="w-full"
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Duration (in days)*</label>
-          <input
-            type="number"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            required
-            min="1"
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
+          {/* Story */}
+          <div>
+            <label className="block text-center font-medium mb-2">
+              Tell your story (max 250 words)
+            </label>
+            <textarea
+              name="story"
+              value={formData.story}
+              onChange={handleChange}
+              required
+              rows="5"
+              className="w-full border rounded px-3 py-2"
+            />
+            {storyError && <p className="text-red-500 text-sm text-center">{storyError}</p>}
+          </div>
 
-        <button
-          type="submit"
-          className="bg-teal-700 text-white font-semibold px-6 py-2 rounded hover:bg-teal-800 transition"
-        >
-          Submit & Continue
-        </button>
-      </form>
+          {/* Funding Goal */}
+          <div>
+            <label className="block text-center font-medium mb-2">Funding Goal (in ₹)*</label>
+            <input
+              type="number"
+              name="fundingGoal"
+              value={formData.fundingGoal}
+              onChange={handleChange}
+              required
+              min="1"
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          {/* Duration */}
+          <div>
+            <label className="block text-center font-medium mb-2">Duration (in days)*</label>
+            <input
+              type="number"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+              min="1"
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          <div className="submit-container">
+            <button type="submit" className="submit">
+              Submit & Continue
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
