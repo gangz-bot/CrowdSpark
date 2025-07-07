@@ -248,7 +248,8 @@ const Campaign = () => {
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    to="/Donation"
+                    // to="/Donation"
+                     to={`/Donation/${campaign._id}`}
                     className="flex-1 bg-teal-700 text-white py-2 rounded text-center hover:bg-teal-800"
                   >
                     Donate Now

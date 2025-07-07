@@ -80,10 +80,14 @@ const App = () => {
         <Route path="/secure-payments" element={<SecurePayments />} />
         <Route path="/real-time-updates" element={<RealTimeUpdates />} />
         <Route path="/global-impact" element={<GlobalImpact />} />
-        <Route path="/Donation" element={<Donation />} />
+        {/* <Route path="/Donation" element={<Donation />} /> */}
+        <Route path="/Donation/:campaignId" element={<Donation />} />
+
         <Route path="/Payment" element={<Payment />} />
-        <Route path="/Contact/:campaignId" element={<Contact />} />
+        {/* <Route path="/Contact/:campaignId" element={<Contact />} /> */}
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Payment/:campaignId" element={<Payment />} />
+
       </Routes>
     </div>
   );
