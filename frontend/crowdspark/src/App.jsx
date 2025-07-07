@@ -15,6 +15,7 @@ import GlobalImpact from './pages/GlobalImpact';
 import Donation from './pages/Donation';
 import Payment from './pages/Payment';
 import Contact from './pages/Contact';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
   const location = useLocation();
@@ -42,6 +43,7 @@ const App = () => {
     '/Donation',
     '/Payment',
     '/Contact',
+    '/Dashboard'
   ];
 
   const shouldHideNavbar = hideNavbarPrefixes.some((prefix) =>
@@ -81,6 +83,7 @@ const App = () => {
         <Route path="/Donation" element={<Donation />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/Contact/:campaignId" element={<Contact />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );

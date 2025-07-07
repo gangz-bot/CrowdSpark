@@ -56,6 +56,20 @@ if (search) {
     
   }
 });
+
+router.get('/user', async (req, res) => {
+  const { userId } = req.query;
+  if (!userId) {
+    return res.status(400).json({ message: "Missing userId" });
+  }
+  try {
+    const campaigns = await Campaign.find({ userId });
+    res.status(200).json({ campaigns });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 router.get('/:id', async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id).populate('userId', 'email');
@@ -68,6 +82,8 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
 
 
 module.exports = router;

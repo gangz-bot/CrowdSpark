@@ -4,7 +4,7 @@ import heroImage from '../assets/hero.png';
 import lockIcon from '../assets/lock.png';
 import clockIcon from '../assets/clock.png';
 import globeIcon from '../assets/globe.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -25,7 +25,8 @@ const Home = () => {
             >
               Start a Campaign
             </button>
-            <button className="primary-btn hover:bg-teal-800 hover:text-white hover:scale-105 transition duration-200 ease-in-out">View Dashboard</button>
+            <Link to="/Dashboard" 
+            className="bg-white text-teal-900 font-semibold py-3 px-8 rounded-md shadow text-center hover:bg-teal-800 hover:text-white hover:scale-105 transition duration-200 ease-in-out">View Dashboard</Link>
           </div>
         </div>
 
