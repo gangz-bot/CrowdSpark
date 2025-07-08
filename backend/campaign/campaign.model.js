@@ -12,6 +12,7 @@ const campaignSchema = new mongoose.Schema({
   story: String,
   fundingGoal: Number,
   duration: Number,
+  views: { type: Number, default: 0 } 
 }, { timestamps: true });
 
 module.exports = mongoose.model('Campaign', campaignSchema);
