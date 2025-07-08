@@ -3,6 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const chatRoutes = require("./chat/chat.routes");
+
 
 dotenv.config();
 const app = express();
@@ -23,6 +25,9 @@ app.use('/api/bank', require('./bank/bank.routes'));
 
 //for payment
 app.use('/api/payment', require('./payment/payment.routes'));
+
+app.use("/api/chat", chatRoutes);
+
 
 
 
