@@ -3,7 +3,7 @@ import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-
 import Navbar from './components/Navbar';
 
 import Campaign from './pages/Campaign';
-import Features from './pages/Features';
+import Notification from './pages/Notification';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
@@ -14,27 +14,29 @@ import RealTimeUpdates from './pages/RealTimeUpdates';
 import GlobalImpact from './pages/GlobalImpact';
 import Donation from './pages/Donation';
 import Payment from './pages/Payment';
-import Contact from './pages/Contact';
+import Chat from './pages/Chat';
 import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard'; 
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setLoading(false);
   }, []);
 
   const hideNavbarPrefixes = [
     '/login',
     '/signup',
-    '/features',
+    '/notification',
     '/campaigns',
     '/start-campaign',
     '/bank-details',
@@ -44,8 +46,9 @@ const App = () => {
     '/Donation',
     '/Payment',
     '/Contact',
+    '/chat',
     '/Dashboard',
-    '/admin-dashboard' // ✅ hide navbar if you want, or remove this line if you want navbar on admin page
+    '/admin-dashboard' // ✅ Hide navbar on admin-dashboard
   ];
 
   const shouldHideNavbar = hideNavbarPrefixes.some((prefix) =>
@@ -59,17 +62,22 @@ const App = () => {
     navigate('/');
   };
 
+  if (loading) return null; // Or a loading spinner
+
   return (
     <div>
       {!shouldHideNavbar && <Navbar user={user} handleLogout={handleLogout} />}
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
         <Route path="/campaigns" element={<Campaign />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
-        
+
+        <Route
+          path="/notification"
+          element={user ? <Notification /> : <Navigate to="/login" replace />}
+        />
         <Route
           path="/start-campaign"
           element={user ? <StartCampaign /> : <Navigate to="/login" replace />}
@@ -78,12 +86,13 @@ const App = () => {
           path="/bank-details"
           element={user ? <BankDetails /> : <Navigate to="/login" replace />}
         />
-
         <Route path="/secure-payments" element={<SecurePayments />} />
         <Route path="/real-time-updates" element={<RealTimeUpdates />} />
         <Route path="/global-impact" element={<GlobalImpact />} />
         <Route path="/Donation/:campaignId" element={<Donation />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="/Chat" element={<Chat />} />
+        <Route path="/chat/:campaignId/:organizerId" element={<Chat />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Payment/:campaignId" element={<Payment />} />
 

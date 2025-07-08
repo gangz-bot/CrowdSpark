@@ -25,7 +25,9 @@ const BankDetails = () => {
       if (!token) return;
 
       try {
-        const res = await axios.get('https://localhost:5000/api/bank/check', {
+
+        const res = await axios.get('http://localhost:5000/api/bank/check', {
+
           headers: { Authorization: `Bearer ${token}` },
         });
 

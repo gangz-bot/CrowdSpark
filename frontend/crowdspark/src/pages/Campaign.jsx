@@ -214,56 +214,60 @@ const Campaign = () => {
         ) : !Array.isArray(campaigns) || campaigns.length === 0 ? (
           <p className="text-center col-span-full">No campaigns found...</p>
         ) : (
-          currentCampaigns.map((campaign) => ( // ✅ use currentCampaigns
-            <div
-              key={campaign._id}
-              className="bg-white border border-gray-200 rounded-lg shadow hover:shadow-lg transition"
-            >
-              {campaign.media?.data && (
-                <img
-                  src={`data:${campaign.media.contentType};base64,${campaign.media.data}`}
-                  alt={campaign.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-              )}
-              <div className="p-4">
-                <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded mb-2">
-                  {campaign.category}
-                </span>
-                <h2 className="text-lg font-semibold">{campaign.title}</h2>
-                <p className="text-gray-600 text-sm mb-3">
-                  {campaign.description}
-                </p>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Goal: ₹{campaign.fundingGoal}</span>
-                  <span>Raised: ₹0</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
-                  <div
-                    className="bg-teal-600 h-2 rounded-full"
-                    style={{
-                      width: `0%`,
-                    }}
+          currentCampaigns.map(
+            (
+              campaign // ✅ use currentCampaigns
+            ) => (
+              <div
+                key={campaign._id}
+                className="bg-white border border-gray-200 rounded-lg shadow hover:shadow-lg transition"
+              >
+                {campaign.media?.data && (
+                  <img
+                    src={`data:${campaign.media.contentType};base64,${campaign.media.data}`}
+                    alt={campaign.title}
+                    className="w-full h-48 object-cover rounded-t-lg"
                   />
-                </div>
-                <div className="flex gap-2">
-                  <Link
-                    // to="/Donation"
-                     to={`/Donation/${campaign._id}`}
-                    className="flex-1 bg-teal-700 text-white py-2 rounded text-center hover:bg-teal-800"
-                  >
-                    Donate Now
-                  </Link>
-                  <Link
-                    to={`/Contact/${campaign._id}`}
-                    className="flex-1 border border-teal-700 text-teal-700 py-2 rounded text-center hover:bg-teal-50"
-                  >
-                    Contact Organizer
-                  </Link>
+                )}
+                <div className="p-4">
+                  <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded mb-2">
+                    {campaign.category}
+                  </span>
+                  <h2 className="text-lg font-semibold">{campaign.title}</h2>
+                  <p className="text-gray-600 text-sm mb-3">
+                    {campaign.description}
+                  </p>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>Goal: ₹{campaign.fundingGoal}</span>
+                    <span>Raised: ₹0</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                    <div
+                      className="bg-teal-600 h-2 rounded-full"
+                      style={{
+                        width: `0%`,
+                      }}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Link
+                      // to="/Donation"
+                      to={`/Donation/${campaign._id}`}
+                      className="flex-1 bg-teal-700 text-white py-2 rounded text-center hover:bg-teal-800"
+                    >
+                      Donate Now
+                    </Link>
+                    <Link
+                      to={`/chat/${campaign._id}/${campaign.userId}`}
+                      className="flex-1 border border-teal-700 text-teal-700 py-2 rounded text-center hover:bg-teal-50"
+                    >
+                      Contact Organizer
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            )
+          )
         )}
       </div>
       {/* ✅ NEW: Pagination Controls */}
@@ -274,8 +278,8 @@ const Campaign = () => {
             disabled={page === 1}
             className={`px-3 py-1 rounded border ${
               page === 1
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-white text-teal-700 hover:bg-teal-50'
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-white text-teal-700 hover:bg-teal-50"
             }`}
           >
             Previous
@@ -286,8 +290,8 @@ const Campaign = () => {
               onClick={() => setPage(i + 1)}
               className={`px-3 py-1 rounded border ${
                 page === i + 1
-                  ? 'bg-teal-700 text-white'
-                  : 'bg-white text-teal-700 hover:bg-teal-50'
+                  ? "bg-teal-700 text-white"
+                  : "bg-white text-teal-700 hover:bg-teal-50"
               }`}
             >
               {i + 1}
@@ -298,8 +302,8 @@ const Campaign = () => {
             disabled={page === totalPages}
             className={`px-3 py-1 rounded border ${
               page === totalPages
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-white text-teal-700 hover:bg-teal-50'
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-white text-teal-700 hover:bg-teal-50"
             }`}
           >
             Next

@@ -2,28 +2,29 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../auth/auth.middleware');
 const multer = require('multer');
-const { createCampaign } = require('./campaign.controller');
 const Campaign = require('./campaign.model');
 
-// Set up Multer for image/video upload
+// ✅ Set up Multer for image/video upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 
-// Allow image and video mimetypes
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'video/mp4', 'video/mkv'];
+  const allowedTypes = [
+    'image/jpeg', 'image/png', 'image/jpg', 'video/mp4', 'video/mkv'
+  ];
   if (allowedTypes.includes(file.mimetype)) cb(null, true);
   else cb(new Error('Invalid file type. Only images and videos are allowed.'), false);
 };
 
 const upload = multer({ storage, fileFilter });
 
-// Route to create campaign with media
+// ✅ Route: Create campaign with media
+const { createCampaign } = require('./campaign.controller');
 router.post('/create', auth, upload.single('media'), createCampaign);
 
-// Get all campaigns (with sort & search)
+// ✅ Get all campaigns (with sort & search & mediaUrl)
 router.get('/', async (req, res) => {
   const { sort, search } = req.query;
   let sortQuery = {};
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
   if (sort === 'newest') sortQuery = { createdAt: -1 };
   else if (sort === 'ending-soon') sortQuery = { duration: 1 };
   else if (sort === 'most-funded') sortQuery = { fundingGoal: -1 };
-  else sortQuery = { createdAt: -1 }; // default sort
+  else sortQuery = { createdAt: -1 };
 
   let searchFilter = {};
   if (search) {
@@ -41,8 +42,8 @@ router.get('/', async (req, res) => {
   try {
     const campaigns = await Campaign.find(searchFilter).sort(sortQuery);
 
-    // ✅ Add mediaUrl for frontend <img src=... />
-    const campaignsWithMediaUrl = campaigns.map((c) => ({
+    // ✅ Add mediaUrl to each campaign
+    const campaignsWithMediaUrl = campaigns.map(c => ({
       ...c.toObject(),
       mediaUrl: c.media?.data
         ? `data:${c.media.contentType};base64,${c.media.data}`
@@ -56,14 +57,15 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get campaigns by user
+// ✅ Get campaigns by user
 router.get('/user', async (req, res) => {
   const { userId } = req.query;
-  if (!userId) return res.status(400).json({ message: "Missing userId" });
-
+  if (!userId) {
+    return res.status(400).json({ message: "Missing userId" });
+  }
   try {
     const campaigns = await Campaign.find({ userId });
-    const campaignsWithMediaUrl = campaigns.map((c) => ({
+    const campaignsWithMediaUrl = campaigns.map(c => ({
       ...c.toObject(),
       mediaUrl: c.media?.data
         ? `data:${c.media.contentType};base64,${c.media.data}`
@@ -77,7 +79,7 @@ router.get('/user', async (req, res) => {
   }
 });
 
-// Get single campaign by ID
+// ✅ Get single campaign by ID
 router.get('/:id', async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id).populate('userId', 'email');
@@ -97,7 +99,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Delete campaign (admin only)
+// ✅ Delete campaign (admin only)
 router.delete('/:id', auth, async (req, res) => {
   try {
     if (!req.user.isAdmin) {
