@@ -61,7 +61,14 @@ exports.login = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ msg: 'Invalid password' });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Check if admin
+    const isAdmin = user.email === 'anshpvt04@gmail.com';
+
+    const token = jwt.sign(
+      { id: user._id, isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
     res.json({
       token,
@@ -70,6 +77,7 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         dob: user.dob,
+        isAdmin,
       },
     });
   } catch (err) {
@@ -77,3 +85,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
