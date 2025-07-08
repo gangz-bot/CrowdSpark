@@ -22,68 +22,98 @@ const upload = multer({ storage, fileFilter });
 
 // Route to create campaign with media
 router.post('/create', auth, upload.single('media'), createCampaign);
-router.get('/', async (req, res) => {
 
-    // const sort = req.query.sort;
-    const { sort, search } = req.query;
+// Get all campaigns (with sort & search)
+router.get('/', async (req, res) => {
+  const { sort, search } = req.query;
   let sortQuery = {};
 
-  if (sort === 'newest') {
-    sortQuery = { createdAt: -1 };
-  } else if (sort === 'ending-soon') {
-    sortQuery = { duration: 1 }; // ✅ use duration for now
-  } else if (sort === 'most-funded') {
-    sortQuery = { fundingGoal: -1 };
-  } else {
-    sortQuery = { createdAt: -1 }; // default
-  }
+  if (sort === 'newest') sortQuery = { createdAt: -1 };
+  else if (sort === 'ending-soon') sortQuery = { duration: 1 };
+  else if (sort === 'most-funded') sortQuery = { fundingGoal: -1 };
+  else sortQuery = { createdAt: -1 }; // default sort
 
   let searchFilter = {};
-if (search) {
-  searchFilter.title = { $regex: search, $options: 'i' };
-}
+  if (search) {
+    searchFilter.title = { $regex: search, $options: 'i' };
+  }
 
   try {
-    // const campaigns = await Campaign.find().sort({ createdAt: -1 });
     const campaigns = await Campaign.find(searchFilter).sort(sortQuery);
 
+    // ✅ Add mediaUrl for frontend <img src=... />
+    const campaignsWithMediaUrl = campaigns.map((c) => ({
+      ...c.toObject(),
+      mediaUrl: c.media?.data
+        ? `data:${c.media.contentType};base64,${c.media.data}`
+        : null,
+    }));
 
-    res.status(200).json({ campaigns });
+    res.status(200).json({ campaigns: campaignsWithMediaUrl });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
-
-    
   }
 });
 
+// Get campaigns by user
 router.get('/user', async (req, res) => {
   const { userId } = req.query;
-  if (!userId) {
-    return res.status(400).json({ message: "Missing userId" });
-  }
+  if (!userId) return res.status(400).json({ message: "Missing userId" });
+
   try {
     const campaigns = await Campaign.find({ userId });
-    res.status(200).json({ campaigns });
+    const campaignsWithMediaUrl = campaigns.map((c) => ({
+      ...c.toObject(),
+      mediaUrl: c.media?.data
+        ? `data:${c.media.contentType};base64,${c.media.data}`
+        : null,
+    }));
+
+    res.status(200).json({ campaigns: campaignsWithMediaUrl });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// Get single campaign by ID
 router.get('/:id', async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id).populate('userId', 'email');
-    if (!campaign) {
-      return res.status(404).json({ message: 'Campaign not found' });
-    }
-    res.json(campaign);
+    if (!campaign) return res.status(404).json({ message: 'Campaign not found' });
+
+    const campaignWithMediaUrl = {
+      ...campaign.toObject(),
+      mediaUrl: campaign.media?.data
+        ? `data:${campaign.media.contentType};base64,${campaign.media.data}`
+        : null,
+    };
+
+    res.json(campaignWithMediaUrl);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
+// Delete campaign (admin only)
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ message: 'Access denied. Admins only.' });
+    }
 
+    const deletedCampaign = await Campaign.findByIdAndDelete(req.params.id);
+    if (!deletedCampaign) {
+      return res.status(404).json({ message: 'Campaign not found' });
+    }
 
+    res.status(200).json({ message: 'Campaign deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 module.exports = router;

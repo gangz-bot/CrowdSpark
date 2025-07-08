@@ -16,6 +16,7 @@ import Donation from './pages/Donation';
 import Payment from './pages/Payment';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard'; 
 
 const App = () => {
   const location = useLocation();
@@ -43,7 +44,8 @@ const App = () => {
     '/Donation',
     '/Payment',
     '/Contact',
-    '/Dashboard'
+    '/Dashboard',
+    '/admin-dashboard' // ✅ hide navbar if you want, or remove this line if you want navbar on admin page
   ];
 
   const shouldHideNavbar = hideNavbarPrefixes.some((prefix) =>
@@ -80,14 +82,16 @@ const App = () => {
         <Route path="/secure-payments" element={<SecurePayments />} />
         <Route path="/real-time-updates" element={<RealTimeUpdates />} />
         <Route path="/global-impact" element={<GlobalImpact />} />
-        {/* <Route path="/Donation" element={<Donation />} /> */}
         <Route path="/Donation/:campaignId" element={<Donation />} />
-
         <Route path="/Payment" element={<Payment />} />
-        {/* <Route path="/Contact/:campaignId" element={<Contact />} /> */}
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Payment/:campaignId" element={<Payment />} />
 
+        {/* ✅ Admin dashboard route */}
+        <Route
+          path="/admin-dashboard"
+          element={user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" replace />}
+        />
       </Routes>
     </div>
   );
