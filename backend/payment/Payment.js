@@ -8,11 +8,7 @@ const paymentSchema = new mongoose.Schema({
   campaignId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Campaign',
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  }
+}, { timestamps: true }); // ✅ this automatically adds createdAt and updatedAt
 
 module.exports = mongoose.model('Payment', paymentSchema);

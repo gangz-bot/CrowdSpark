@@ -28,6 +28,7 @@ exports.createCampaign = async (req, res) => {
       story,
       fundingGoal,
       duration,
+      // views,
       media: {
         data: base64Data,
         contentType: req.file.mimetype,

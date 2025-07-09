@@ -145,6 +145,15 @@ const Campaign = () => {
 
   const campaignsPerPage = 6; // ✅ NEW
 
+  const handleDonateNow = async (campaignId) => {
+    try {
+      await axios.post(`http://localhost:5000/api/campaigns/${campaignId}/view`);
+      console.log('View counted!');
+    } catch (err) {
+      console.error('Error counting view:', err);
+    }
+  };
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
@@ -251,8 +260,8 @@ const Campaign = () => {
                   </div>
                   <div className="flex gap-2">
                     <Link
-                      // to="/Donation"
                       to={`/Donation/${campaign._id}`}
+                      onClick={() => handleDonateNow(campaign._id)}
                       className="flex-1 bg-teal-700 text-white py-2 rounded text-center hover:bg-teal-800"
                     >
                       Donate Now

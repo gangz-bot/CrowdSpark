@@ -4,6 +4,7 @@ require('dotenv').config();
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const chatRoutes = require("./chat/chat.routes");
+const dashboardRoutes = require('./dashboard/dashboard.routes');
 
 
 dotenv.config();
@@ -28,7 +29,7 @@ app.use('/api/payment', require('./payment/payment.routes'));
 
 app.use("/api/chat", chatRoutes);
 
-
+app.use('/api', dashboardRoutes);
 
 
 const PORT = process.env.PORT || 5000;
